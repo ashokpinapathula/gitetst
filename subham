@@ -1,1 +1,28 @@
 
+const bodyParser = require('body-parser')
+const {spawn} = require('child_process');
+
+// const ls = spawn("git", ['clone',"https://github.com/ashokpinapathula/gitetst.git", '-b','master']);
+
+var ls = spawn('git',
+[
+    'clone',
+    'https://github.com/ashokpinapathula/gitetst.git',
+    '-b',
+    'master'
+],
+{
+    shell: true
+},
+{
+    cwd: '/'
+})
+received=0;
+progress=0;
+ls.stderr.on("data",data=>{
+    received +=data.length;
+    progress = received/20;
+    console.log(progress)
+    console.log(`${data}`)
+})
+
